@@ -2,13 +2,14 @@
 
 using namespace std;
 
-#define COMPLEX 1
+#define SIMPLE 1
+#define COMPLEX 0
 
 int Shape:: _total = 0;
 
 int main(){
     Factory *factory;
-#ifdef SIMPLE
+#if SIMPLE
     factory = new SimpleShapeFactory;
 #elif COMPLEX
     factory =  new ComplexShapeFactory;
