@@ -2,22 +2,33 @@
 
 using namespace std;
 
+#define STATIC_POINTER 0
+
 class DialogComponent{
+#if STATIC_POINTER
     static DialogComponent *m_dialog;
+#endif
     int m_width;
     int m_height;
     float m_opacity;
     bool m_isVisisble;
+
     // Constructor is private
     DialogComponent(): m_width(60), m_height(80), m_opacity(1.0), m_isVisisble(true) {}
 
 public:
+#if STATIC_POINTER
     static DialogComponent* getInstance(){
         if(m_dialog == nullptr)
             m_dialog = new DialogComponent;
         return m_dialog;
     }
-
+#else
+    static DialogComponent& getInstance(){
+        static DialogComponent m_dialog;
+        return m_dialog;
+    }
+#endif
     // Setters
     void setWidth(int width){ m_width = width; }
     void setHeight(int height){ m_height = height; }
