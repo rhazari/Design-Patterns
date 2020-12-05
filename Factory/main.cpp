@@ -1,18 +1,26 @@
-#include "vehicleFactory.h"
-
-using namespace std;
+#include "HiringManager.h"
+#include <memory>
 
 int main(){
-    Vehicle *v;
-    // Car
-    v = VehicleFactory::createVehicle(VehicleType::Car);
-    v->display();
-    delete v;
 
-    // Truck
-    v = VehicleFactory::createVehicle(VehicleType::Truck);
-    v->display();
-    delete v;
+    HiringManager* manager;
+    {
+        manager = new DeveloperManager();
 
-    return 0;
+        auto pr = manager->createInterviewer();
+        std::cout<<pr->getName()<<"\n";
+        std::cout<<pr->askQuestion()<<"\n";
+        manager->removeInterviewer(pr);
+        delete manager;
+    }
+    
+    {
+        manager = new CommunityManager();
+
+        auto pr = manager->createInterviewer();
+        std::cout<<pr->getName()<<"\n";
+        std::cout<<pr->askQuestion()<<"\n";
+        manager->removeInterviewer(pr);
+        delete manager;
+    }
 }
