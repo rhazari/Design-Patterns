@@ -1,42 +1,44 @@
+#pragma once
 #include <iostream>
+#include <string>
 
 class Product{
 private:
-    std::string m_partA;
-    std::string m_partB;
-    std::string m_productName;
+    std::string _partA;
+    std::string _partB;
+    std::string _productName;
 
 public:
     Product(std::string productName):
-        m_productName(productName){}
+        _productName(productName){}
 
     void makePartA(std::string partA){
-        m_partA = partA;
+        _partA = partA;
     }
 
     void makePartB(std::string partB){
-        m_partB = partB;
+        _partB = partB;
     }
 
     std::string getPartA(){
-        return m_partA;
+        return _partA;
     }
 
 
     std::string getPartB(){
-        return m_partB;
+        return _partB;
     }
 
     void display(){
-        std::cout<<"Product: "<<m_productName<<"\n";
-        std::cout<<"PartA :"<<m_partA<<"\n";
-        std::cout<<"PartB :"<<m_partB<<"\n";
+        std::cout<<"Product: "<<_productName<<"\n";
+        std::cout<<"PartA :"<<_partA<<"\n";
+        std::cout<<"PartB :"<<_partB<<"\n";
     }
 };
 
 class AbstractBuilder{
 protected:
-    Product *m_product;
+    Product *_product;
 
 public:
     virtual ~AbstractBuilder(){}
@@ -46,83 +48,95 @@ public:
     virtual void buildPartsB() = 0;
 
     Product* get(){
-        return m_product;
+        return _product;
     }
 };
 
 class ConcreteBuilderX : public AbstractBuilder{
 public:
+    ~ConcreteBuilderX () {
+        std::cout<<"Destructor: ConcreteBuilderX\n";
+    }
+
     void setProduct() {
-        m_product = new Product("Product-X");
+        _product = new Product("Product-X");
     }
 
     void buildPartsA(){
-        m_product->makePartA("X-A");
+        _product->makePartA("X-A");
     }
     
     void buildPartsB(){
-        m_product->makePartB("X-B");
+        _product->makePartB("X-B");
     }
 };
 
 class ConcreteBuilderY : public AbstractBuilder{
 public:
+    ~ConcreteBuilderY () {
+        std::cout<<"Destructor: ConcreteBuilderY\n";
+    }
+
     void setProduct() {
-        m_product = new Product("Product-Y");
+        _product = new Product("Product-Y");
     }
 
     void buildPartsA(){
-        m_product->makePartA("Y-A");
+        _product->makePartA("Y-A");
     }
     
     void buildPartsB(){
-        m_product->makePartB("Y-B");
+        _product->makePartB("Y-B");
     }
 };
 
 class ConcreteBuilderZ : public AbstractBuilder{
 public:
+    ~ConcreteBuilderZ () {
+        std::cout<<"Destructor: ConcreteBuilderZ\n";
+    }
+
     void setProduct() {
-        m_product = new Product("Product-Z");
+        _product = new Product("Product-Z");
     }
 
     void buildPartsA(){
-        m_product->makePartA("Z-A");
+        _product->makePartA("Z-A");
     }
 
     void buildPartsB(){
-        m_product->makePartB("Z-B");
+        _product->makePartB("Z-B");
     }
 };
 
 class Director{
 private:
-    AbstractBuilder* m_builder;
+    AbstractBuilder* _builder;
 
 public:
     Director():
-        m_builder(nullptr){}
+        _builder(nullptr){}
 
     ~Director() {
-        if (m_builder) {
-            delete m_builder;
+        if (_builder) {
+            delete _builder;
         }
     }
 
     void set(AbstractBuilder *b) {
-        if (m_builder) {
-            delete m_builder;
+        if (_builder) {
+            delete _builder;
         }
-        m_builder = b;
+        _builder = b;
       }
 
     void createProduct(){
-        m_builder->setProduct();
-        m_builder->buildPartsA();
-        m_builder->buildPartsB();
+        _builder->setProduct();
+        _builder->buildPartsA();
+        _builder->buildPartsB();
     }
 
     Product* getProduct(){
-        return m_builder->get();
+        return _builder->get();
     }
 };
