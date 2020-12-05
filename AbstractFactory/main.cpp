@@ -1,20 +1,31 @@
-#include "Client.h"
+#include "DoorFactory.h"
 
-using namespace std;
+int main() {
 
-#define SIMPLE 1
-#define COMPLEX 0
+    DoorFactory* factory;
+    {
+        factory = new WoodenDoorFactory();
+        auto door = factory->getDoor();
+        auto expert = factory->getExpert();
 
-int Shape:: _total = 0;
+        door->getDescription();
+        expert->getDescription();
+        factory->removeDoor(door);
+        factory->removeExpert(expert);
 
-int main(){
-    Factory *factory;
-#if SIMPLE
-    factory = new SimpleShapeFactory;
-#elif COMPLEX
-    factory =  new ComplexShapeFactory;
-#endif
-    Client *c = new Client(factory);
-    c->draw();
-    return 0;
+        delete factory;
+    }
+
+    {
+        factory = new MetalDoorFactory();
+        auto door = factory->getDoor();
+        auto expert = factory->getExpert();
+
+        door->getDescription();
+        expert->getDescription();
+        factory->removeDoor(door);
+        factory->removeExpert(expert);
+
+        delete factory;
+    }
 }
