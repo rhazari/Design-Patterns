@@ -1,26 +1,20 @@
 #include "HiringManager.h"
-#include <memory>
 
 int main(){
 
-    HiringManager* manager;
+    std::unique_ptr<HiringManager> manager;
     {
-        manager = new DeveloperManager();
+        manager = std::make_unique<DeveloperManager>();
 
         auto pr = manager->createInterviewer();
         std::cout<<pr->getName()<<"\n";
         std::cout<<pr->askQuestion()<<"\n";
-        manager->removeInterviewer(pr);
-        delete manager;
     }
     
     {
-        manager = new CommunityManager();
-
+        manager = std::make_unique<CommunityManager>();
         auto pr = manager->createInterviewer();
         std::cout<<pr->getName()<<"\n";
         std::cout<<pr->askQuestion()<<"\n";
-        manager->removeInterviewer(pr);
-        delete manager;
     }
 }

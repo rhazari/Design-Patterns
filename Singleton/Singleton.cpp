@@ -9,12 +9,12 @@ using namespace std;
 int main(){
 
 #if STATIC_POINTER
-    cout<<"*** STATIC POINTER ***"<<"\n";
+    std::cout<<"*** STATIC POINTER ***"<<"\n";
     DialogComponent* dialog = DialogComponent::getInstance();
     dialog->DisplaySettings();
 
     // Change of Settings
-    cout<<"\n";
+    std::cout<<"\n";
     dialog->setHeight(100);
     dialog->setWidth(150);
     dialog->setOpacity(0.5);
@@ -22,12 +22,12 @@ int main(){
     dialog->DisplaySettings();
 
 #else
-    cout<<"*** LOCAL STATIC ***"<<"\n";
+    std::cout<<"*** LOCAL STATIC ***"<<"\n";
     DialogComponent dialog = DialogComponent::getInstance();
     dialog.DisplaySettings();
 
     // Change of Settings
-    cout<<"\n";
+    std::cout<<"\n";
     dialog.setHeight(100);
     dialog.setWidth(150);
     dialog.setOpacity(0.5);
@@ -35,5 +35,4 @@ int main(){
     dialog.DisplaySettings();
 
 #endif
-    return 0;
 }

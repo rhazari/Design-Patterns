@@ -1,23 +1,20 @@
 #pragma once
 #include "Interviewer.h"
+#include <memory>
 
 class HiringManager {
 public:
     virtual ~HiringManager() {}
 
-    virtual Interviewer* createInterviewer() = 0;
-
-    void removeInterviewer(Interviewer* pr){
-        delete pr;
-    }
+    virtual std::unique_ptr<Interviewer> createInterviewer() = 0;
 };
 
 class DeveloperManager: public HiringManager {
 public:
     ~DeveloperManager() {}
 
-    Interviewer* createInterviewer() {
-        return new Developer();
+    std::unique_ptr<Interviewer> createInterviewer() {
+        return std::make_unique<Developer>();
     }
 };
 
@@ -25,7 +22,7 @@ class CommunityManager: public HiringManager {
 public:
     ~CommunityManager() {}
 
-    Interviewer* createInterviewer() {
-        return new CommunityExecutive();
+    std::unique_ptr<Interviewer> createInterviewer() {
+        return std::make_unique<CommunityExecutive>();
     }
 };

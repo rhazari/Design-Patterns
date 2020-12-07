@@ -4,25 +4,19 @@ int main(){
     
     Director dir;
 
-    dir.set(new ConcreteBuilderX);
+    dir.set(std::make_unique<ConcreteBuilderX>());
     dir.createProduct();
-    Product *p1 = dir.getProduct();
-    p1->display();
+    Product p1 = dir.getProduct();
+    std::cout<<p1.get()<<"\n";
 
 
-    dir.set(new ConcreteBuilderY);
+    dir.set(std::make_unique<ConcreteBuilderY>());
     dir.createProduct();
-    Product *p2 = dir.getProduct();
-    p2->display();
+    Product p2 = dir.getProduct();
+    std::cout<<p2.get()<<"\n";
 
-    dir.set(new ConcreteBuilderZ);
+    dir.set(std::make_unique<ConcreteBuilderZ>());
     dir.createProduct();
-    Product *p3 = dir.getProduct();
-    p3->display();
-
-    delete p1;
-    delete p2;
-    delete p3;
-
-    return 0;
+    Product p3 = dir.getProduct();
+    std::cout<<p3.get()<<"\n";
 }

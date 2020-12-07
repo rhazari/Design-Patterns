@@ -22,6 +22,4 @@ int main(){
     r1.executeCommand();
     r2.executeCommand();
     r3.executeCommand();
-
-    return 0;
 }

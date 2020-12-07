@@ -1,50 +1,48 @@
 #include <iostream>
 
-using namespace std;
-
 #define STATIC_POINTER 0
 
 class DialogComponent{
 #if STATIC_POINTER
     static DialogComponent *m_dialog;
 #endif
-    int m_width;
-    int m_height;
-    float m_opacity;
-    bool m_isVisisble;
+    int _width;
+    int _height;
+    float _opacity;
+    bool _isVisisble;
 
     // Constructor is private
-    DialogComponent(): m_width(60), m_height(80), m_opacity(1.0), m_isVisisble(true) {}
+    DialogComponent(): _width(60), _height(80), _opacity(1.0), _isVisisble(true) {}
 
 public:
 #if STATIC_POINTER
     static DialogComponent* getInstance(){
-        if(m_dialog == nullptr)
-            m_dialog = new DialogComponent;
-        return m_dialog;
+        if(_dialog == nullptr)
+            _dialog = new DialogComponent;
+        return _dialog;
     }
 #else
     static DialogComponent& getInstance(){
-        static DialogComponent m_dialog;
-        return m_dialog;
+        static DialogComponent _dialog;
+        return _dialog;
     }
 #endif
     // Setters
-    void setWidth(int width){ m_width = width; }
-    void setHeight(int height){ m_height = height; }
-    void setOpacity(float opacity){ m_opacity = opacity; }
-    void setVisibility(bool isVisible) {m_isVisisble = isVisible; }
+    void setWidth(int width){ _width = width; }
+    void setHeight(int height){ _height = height; }
+    void setOpacity(float opacity){ _opacity = opacity; }
+    void setVisibility(bool isVisible) {_isVisisble = isVisible; }
 
     //Getters
-    int getWidth() { return m_width; }
-    int getHeight() { return m_height; }
-    float getOpacity() { return m_opacity; }
-    bool getVisibility() { return m_isVisisble; }
+    int getWidth() { return _width; }
+    int getHeight() { return _height; }
+    float getOpacity() { return _opacity; }
+    bool getVisibility() { return _isVisisble; }
 
     void DisplaySettings(){
-        cout<<"Width: "<<m_width<<"\n";
-        cout<<"Height: "<<m_height<<"\n";
-        cout<<"Opacity: "<<m_opacity<<"\n";
-        cout<<"Visible: "<<m_isVisisble<<"\n";
+        std::cout<<"Width: "<<_width<<"\n";
+        std::cout<<"Height: "<<_height<<"\n";
+        std::cout<<"Opacity: "<<_opacity<<"\n";
+        std::cout<<"Visible: "<<_isVisisble<<"\n";
     }
 };

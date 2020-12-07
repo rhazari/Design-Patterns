@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <string>
+#include <memory>
 
 class Coffee{
 public:
@@ -25,11 +26,11 @@ public:
 
 class CoffeeDecorator: public Coffee {
 protected:
-    Coffee* _coffee;
+    std::unique_ptr<Coffee> _coffee;
 public:
     ~CoffeeDecorator() {}
 
-    CoffeeDecorator(Coffee* coffee): _coffee(coffee) {}
+    CoffeeDecorator(std::unique_ptr<Coffee> coffee): _coffee(std::move(coffee)) {}
 
     virtual double getCost() = 0;
     virtual std::string getDescription() = 0;
@@ -38,7 +39,7 @@ public:
 
 class MilkCoffee: public CoffeeDecorator{
 public:
-    MilkCoffee(Coffee* coffee): CoffeeDecorator(coffee){}
+    MilkCoffee(std::unique_ptr<Coffee> coffee): CoffeeDecorator(std::move(coffee)){}
 
     double getCost() {
         return _coffee->getCost() + 2.0;
@@ -51,7 +52,7 @@ public:
 
 class WhipCoffee: public CoffeeDecorator{
 public:
-    WhipCoffee(Coffee* coffee): CoffeeDecorator(coffee){}
+    WhipCoffee(std::unique_ptr<Coffee> coffee): CoffeeDecorator(std::move(coffee)){}
 
     double getCost() {
         return _coffee->getCost() + 4.0;
@@ -64,7 +65,7 @@ public:
 
 class VanillaCoffee: public CoffeeDecorator{
 public:
-    VanillaCoffee(Coffee* coffee): CoffeeDecorator(coffee){}
+    VanillaCoffee(std::unique_ptr<Coffee> coffee): CoffeeDecorator(std::move(coffee)){}
 
     double getCost() {
         return _coffee->getCost() + 2.0;

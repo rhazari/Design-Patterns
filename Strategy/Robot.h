@@ -1,11 +1,11 @@
 #pragma once
-
 #include <iostream>
 #include <memory>
 
 // Common interface to all supported algorithms
 class IStrategy {
 public:
+    virtual ~IStrategy() {}
     virtual void moveCommand() = 0;
 };
 
@@ -34,17 +34,17 @@ public:
 class Robot{
 public:
     Robot(std::string name):
-        m_name(name){}
+        _name(name){}
 
     void setStrategy(std::unique_ptr<IStrategy> s){
-        m_strategy = std::move(s);
+        _strategy = std::move(s);
     }
 
     void executeCommand(){
-        m_strategy->moveCommand();
+        _strategy->moveCommand();
     }
 
 private:
-    std::unique_ptr<IStrategy> m_strategy;
-    std::string m_name;
+    std::unique_ptr<IStrategy> _strategy;
+    std::string _name;
 };
