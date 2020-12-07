@@ -1,44 +1,40 @@
 #pragma once
 #include "FittingExpert.h"
+#include <memory>
 
 class DoorFactory{
 public:
     virtual ~DoorFactory() {}
-    virtual Door* getDoor() = 0;
-    virtual FittingExpert* getExpert() = 0;
-
-    void removeDoor(Door* door){
-        delete door;
-    }
-
-    void removeExpert(FittingExpert* expert){
-        delete expert;
-    }
-
+    virtual std::unique_ptr<Door> getDoor() = 0;
+    virtual std::unique_ptr<FittingExpert> getExpert() = 0;
 };
 
 class WoodenDoorFactory: public DoorFactory{
 public:
-    ~WoodenDoorFactory() {}
-
-    Door* getDoor() {
-        return new WooderDoor();
+    ~WoodenDoorFactory() {
+        std::cout<<"~WoodenDoorFactory()\n";
     }
 
-    FittingExpert* getExpert() {
-        return new Carpernter();
+    std::unique_ptr<Door> getDoor() {
+        return std::make_unique<WooderDoor>();
+    }
+
+    std::unique_ptr<FittingExpert> getExpert() {
+        return std::make_unique<Carpernter>();
     }
 };
 
 class MetalDoorFactory: public DoorFactory{
 public:
-    ~MetalDoorFactory() {}
-
-    Door* getDoor() {
-        return new MetalDoor();
+    ~MetalDoorFactory() {
+        std::cout<<"~MetalDoorFactory()\n";
     }
 
-    FittingExpert* getExpert() {
-        return new Welder();
+    std::unique_ptr<Door> getDoor() {
+        return std::make_unique<MetalDoor>();
+    }
+
+    std::unique_ptr<FittingExpert> getExpert() {
+        return std::make_unique<Welder>();
     }
 };

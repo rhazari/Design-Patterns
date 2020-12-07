@@ -9,9 +9,9 @@ public:
     virtual void bark() = 0;
 };
 
-class WilDog: public Dog {
+class WildDog: public Dog {
 public:
-    ~WilDog() {}
+    ~WildDog() {}
 
     void bark() {
         std::cout<<"This is a WildDog\n";

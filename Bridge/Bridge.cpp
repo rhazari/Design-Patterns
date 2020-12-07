@@ -1,22 +1,19 @@
 #include "WebPage.h"
 
 int main() {
-    WebPage* page;
+    std::unique_ptr<WebPage> page;
     {
-        page = new AboutPage(new DarkTheme());
+        page = std::make_unique<AboutPage>(std::make_unique<DarkTheme>());
         page->getContent();
-        delete page;
     }
 
     {
-        page = new HomePage(new LightTheme());
+        page = std::make_unique<HomePage>(std::make_unique<LightTheme>());
         page->getContent();
-        delete page;
     }
 
     {
-        page = new CareerPage(new AquaTheme());
+        page = std::make_unique<CareerPage>(std::make_unique<AquaTheme>());
         page->getContent();
-        delete page;
     }
 }

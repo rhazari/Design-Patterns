@@ -1,22 +1,22 @@
 #pragma once
 #include "Theme.h"
+#include <memory>
 
 class WebPage{
+protected:
+    std::unique_ptr<Theme> _theme;
 public:
     virtual ~WebPage() {}
+
+    WebPage(std::unique_ptr<Theme> theme): _theme(std::move(theme)){}
 
     virtual void getContent() = 0;
 
 };
 
 class AboutPage: public WebPage{
-    Theme* _theme;
 public:
-    ~AboutPage() {
-        delete _theme;
-    }
-
-    AboutPage(Theme* theme): _theme(theme){}
+    AboutPage(std::unique_ptr<Theme> theme): WebPage(std::move(theme)) {}
 
     void getContent() {
         std::cout<<"About page in "<<_theme->getColor()<<"\n";
@@ -24,13 +24,8 @@ public:
 };
 
 class CareerPage: public WebPage{
-    Theme* _theme;
 public:
-    ~CareerPage() {
-        delete _theme;
-    }
-
-    CareerPage(Theme* theme): _theme(theme){}
+    CareerPage(std::unique_ptr<Theme> theme): WebPage(std::move(theme)){}
 
     void getContent() {
         std::cout<<"Career page in "<<_theme->getColor()<<"\n";
@@ -38,13 +33,8 @@ public:
 };
 
 class HomePage: public WebPage{
-    Theme* _theme;
 public:
-    ~HomePage() {
-        delete _theme;
-    }
-
-    HomePage(Theme* theme): _theme(theme){}
+    HomePage(std::unique_ptr<Theme> theme): WebPage(std::move(theme)){}
 
     void getContent() {
         std::cout<<"Home page in "<<_theme->getColor()<<"\n";

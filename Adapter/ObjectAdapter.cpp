@@ -1,15 +1,12 @@
 #include "Lion.h"
 #include "Dog.h"
+#include <memory>
 
 class DogAdapter: public Lion {
-    Dog* _dog;
+    std::unique_ptr<Dog> _dog;
 public:
     DogAdapter() {
-        _dog = new WilDog();
-    }
-
-    ~DogAdapter() {
-        delete _dog;
+        _dog = std::make_unique<WildDog>();
     }
 
     void roar() {
@@ -18,15 +15,13 @@ public:
 };
 
 int main() {
-    Lion* lion; 
+    std::unique_ptr<Lion> lion; 
     {
-        lion = new AfricanLion();
+        lion = std::make_unique<AfricanLion>();
         lion->roar();
-        delete lion;
     }
     {
-        lion = new DogAdapter();
+        lion = std::make_unique<DogAdapter>();
         lion->roar();
-        delete lion;
     }
 }

@@ -2,30 +2,22 @@
 
 int main() {
 
-    DoorFactory* factory;
+    std::unique_ptr<DoorFactory> factory;
     {
-        factory = new WoodenDoorFactory();
+        factory = std::make_unique<WoodenDoorFactory>();
         auto door = factory->getDoor();
         auto expert = factory->getExpert();
 
         door->getDescription();
         expert->getDescription();
-        factory->removeDoor(door);
-        factory->removeExpert(expert);
-
-        delete factory;
     }
 
     {
-        factory = new MetalDoorFactory();
+        factory = std::make_unique<MetalDoorFactory>();
         auto door = factory->getDoor();
         auto expert = factory->getExpert();
 
         door->getDescription();
         expert->getDescription();
-        factory->removeDoor(door);
-        factory->removeExpert(expert);
-
-        delete factory;
     }
 }
