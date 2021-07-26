@@ -1,22 +1,29 @@
 #include "Builder.h"
 
+void ClientDriver(std::unique_ptr<Director> director){
+    auto builder = std::make_unique<ConceteBuilder>();
+    director->SetBuilder(builder.get());
+
+    std::cout<<"Basic Minimal Product\n";
+    director->BuildMinimalProduct();
+    auto ptr = builder->GetProduct();
+    ptr->ListParts();
+
+    std::cout<<"Full Feature Product\n";
+    director->BuildFullFeatureProdcut();
+    ptr = builder->GetProduct();
+    ptr->ListParts();
+
+    std::cout<<"Custom Product\n";
+    builder->ProducePartA();
+    builder->ProducePartC();
+
+    ptr = builder->GetProduct();
+    ptr->ListParts();
+}
+
 int main(){
+
+    ClientDriver(std::make_unique<Director>());
     
-    Director dir;
-
-    dir.set(std::make_unique<ConcreteBuilderX>());
-    dir.createProduct();
-    Product p1 = dir.getProduct();
-    std::cout<<p1.get()<<"\n";
-
-
-    dir.set(std::make_unique<ConcreteBuilderY>());
-    dir.createProduct();
-    Product p2 = dir.getProduct();
-    std::cout<<p2.get()<<"\n";
-
-    dir.set(std::make_unique<ConcreteBuilderZ>());
-    dir.createProduct();
-    Product p3 = dir.getProduct();
-    std::cout<<p3.get()<<"\n";
 }

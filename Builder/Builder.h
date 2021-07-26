@@ -1,123 +1,86 @@
 #pragma once
+
 #include <iostream>
 #include <string>
 #include <memory>
+#include <vector>
 
 class Product{
-private:
-    std::string _partA;
-    std::string _partB;
-    std::string _partC;
-
+    std::vector<std::string> parts_;
 public:
-
-    void makePartA(std::string partA){
-        _partA = partA;
+    void ListParts() const{
+        std::cout<<"Product Parts: ";
+        for(size_t k = 0; k < parts_.size(); ++k){
+            if(k == parts_.size()-1){
+                std::cout<<parts_[k];
+            }
+            else{
+                std::cout<<parts_[k]<<", ";
+            }
+        }
+        std::cout<<"\n";
     }
 
-    void makePartB(std::string partB){
-        _partB = partB;
-    }
-
-    void makePartC(std::string partC){
-        _partC = partC;
-    }
-
-    std::string get(){
-        return (_partA + " " + _partB + " " + _partC);
+    void AddPart(const std::string& part) {
+        parts_.push_back(part);
     }
 };
 
 class Builder{
-protected:
-    Product _product;
-
 public:
     virtual ~Builder(){}
-    virtual void buildPartsA() = 0;
-    virtual void buildPartsB() = 0;
-    virtual void buildPartsC() = 0;
 
-    Product get(){
-        return _product;
-    }
+    virtual void ProducePartA() const = 0;
+    virtual void ProducePartB() const = 0;
+    virtual void ProducePartC() const = 0;
 };
 
-class ConcreteBuilderX : public Builder{
+class ConceteBuilder: public Builder {
+    std::unique_ptr<Product> product_;
 public:
-    ~ConcreteBuilderX () {
-        std::cout<<"Destructor: ConcreteBuilderX\n";
+
+    ConceteBuilder(){
+        Reset();
     }
 
-    void buildPartsA(){
-        _product.makePartA("X-A");
-    }
-    
-    void buildPartsB(){
-        _product.makePartB("X-B");
+    void Reset(){
+        product_ = std::make_unique<Product>();
     }
 
-    void buildPartsC(){
-        _product.makePartC("X-C");
-    }
-};
-
-class ConcreteBuilderY : public Builder{
-public:
-    ~ConcreteBuilderY () {
-        std::cout<<"Destructor: ConcreteBuilderY\n";
+    void ProducePartA() const override{
+        product_->AddPart("PartA");
     }
 
-    void buildPartsA(){
-        _product.makePartA("Y-A");
-    }
-    
-    void buildPartsB(){
-        _product.makePartB("Y-B");
+    void ProducePartB() const override{
+        product_->AddPart("PartB");
     }
 
-    void buildPartsC(){
-        _product.makePartC("Y-C");
-    }
-};
-
-class ConcreteBuilderZ : public Builder{
-public:
-    ~ConcreteBuilderZ () {
-        std::cout<<"Destructor: ConcreteBuilderZ\n";
+    void ProducePartC() const override{
+        product_->AddPart("PartC");
     }
 
-    void buildPartsA(){
-        _product.makePartA("Z-A");
-    }
-
-    void buildPartsB(){
-        _product.makePartB("Z-B");
-    }
-
-    void buildPartsC(){
-        _product.makePartC("Z-C");
+    std::unique_ptr<Product> GetProduct() {
+        auto ptr = std::move(product_);
+        Reset();
+        return ptr;
     }
 };
 
 class Director{
-private:
-    std::unique_ptr<Builder> _builder;
-
+    Builder* builder_;
 public:
-    Director(): _builder(nullptr){}
-    
-    void set(std::unique_ptr<Builder> builder) {
-        _builder = std::move(builder);
-      }
-
-    void createProduct(){
-        _builder->buildPartsA();
-        _builder->buildPartsB();
-        _builder->buildPartsC();
+    void SetBuilder(Builder* bd){
+        builder_ = bd;
     }
 
-    Product getProduct(){
-        return _builder->get();
+    // The Director can construct several variations
+    void BuildMinimalProduct(){
+        builder_->ProducePartA();
+    }
+
+    void BuildFullFeatureProdcut(){
+        builder_->ProducePartA();
+        builder_->ProducePartB();
+        builder_->ProducePartC();
     }
 };
