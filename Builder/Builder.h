@@ -6,23 +6,23 @@
 #include <vector>
 
 class Product{
-    std::vector<std::string> parts_;
+    std::vector<std::string> _parts;
 public:
     void ListParts() const{
         std::cout<<"Product Parts: ";
-        for(size_t k = 0; k < parts_.size(); ++k){
-            if(k == parts_.size()-1){
-                std::cout<<parts_[k];
+        for(size_t k = 0; k < _parts.size(); ++k){
+            if(k == _parts.size()-1){
+                std::cout<<_parts[k];
             }
             else{
-                std::cout<<parts_[k]<<", ";
+                std::cout<<_parts[k]<<", ";
             }
         }
         std::cout<<"\n";
     }
 
     void AddPart(const std::string& part) {
-        parts_.push_back(part);
+        _parts.push_back(part);
     }
 };
 
@@ -36,7 +36,7 @@ public:
 };
 
 class ConceteBuilder: public Builder {
-    std::unique_ptr<Product> product_;
+    std::unique_ptr<Product> _product;
 public:
 
     ConceteBuilder(){
@@ -44,43 +44,43 @@ public:
     }
 
     void Reset(){
-        product_ = std::make_unique<Product>();
+        _product = std::make_unique<Product>();
     }
 
     void ProducePartA() const override{
-        product_->AddPart("PartA");
+        _product->AddPart("PartA");
     }
 
     void ProducePartB() const override{
-        product_->AddPart("PartB");
+        _product->AddPart("PartB");
     }
 
     void ProducePartC() const override{
-        product_->AddPart("PartC");
+        _product->AddPart("PartC");
     }
 
     std::unique_ptr<Product> GetProduct() {
-        auto ptr = std::move(product_);
+        auto ptr = std::move(_product);
         Reset();
         return ptr;
     }
 };
 
 class Director{
-    Builder* builder_;
+    Builder* _builder;
 public:
     void SetBuilder(Builder* bd){
-        builder_ = bd;
+        _builder = bd;
     }
 
     // The Director can construct several variations
     void BuildMinimalProduct(){
-        builder_->ProducePartA();
+        _builder->ProducePartA();
     }
 
     void BuildFullFeatureProdcut(){
-        builder_->ProducePartA();
-        builder_->ProducePartB();
-        builder_->ProducePartC();
+        _builder->ProducePartA();
+        _builder->ProducePartB();
+        _builder->ProducePartC();
     }
 };

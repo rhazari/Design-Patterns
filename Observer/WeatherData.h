@@ -8,10 +8,10 @@
 #include <iostream>
 
 class WeatherData: public Notifier{
-    std::vector<Observer*> observers_;
-    float temp_ = 0.0f;
-    float humidity_ = 0.0f;
-    float pressure_ = 0.0f;
+    std::vector<Observer*> _observers;
+    float _temp = 0.0f;
+    float _humidity = 0.0f;
+    float _pressure = 0.0f;
 
 public:
     void registerObserver(Observer*) override;
@@ -24,27 +24,27 @@ public:
 };
 
 void WeatherData::registerObserver(Observer *ob) {
-    observers_.push_back(ob);
+    _observers.push_back(ob);
 }
 
 void WeatherData::removeObserver(Observer* ob) {
     // find the observer
-    auto iterator = std::find(observers_.begin(), observers_.end(), ob);
+    auto iterator = std::find(_observers.begin(), _observers.end(), ob);
 
-    if (iterator != observers_.end()) { // observer found
-        observers_.erase(iterator); // remove the observer
+    if (iterator != _observers.end()) { // observer found
+        _observers.erase(iterator); // remove the observer
     }
 }
 
 void WeatherData::notifyObservers() {
-    for (auto* ob : observers_) { // notify all observers
-        ob->update(temp_, humidity_, pressure_);
+    for (auto* ob : _observers) { // notify all observers
+        ob->update(_temp, _humidity, _pressure);
     }
 }
 
 void WeatherData::setState(float temp, float humidity, float pressure) {
-    temp_ = temp;
-    humidity_ = humidity;
-    pressure_ = pressure;
+    _temp = temp;
+    _humidity = humidity;
+    _pressure = pressure;
     notifyObservers();
 }
