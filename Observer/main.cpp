@@ -1,24 +1,26 @@
-#include "WeatherData.h"
-#include "Client.h"
+#include "Subject.h"
+#include "Observer.h"
 
-#include <iostream>
-#include <memory>
+int Observer::_count = 0;
 
-int main(){
+int main() {
+    Subject *subject = new Subject();
 
-    WeatherData weatherStation;
-    auto c1 = std::make_unique<Client>(1);
-    auto c2 = std::make_unique<Client>(2);
-    auto c3 = std::make_unique<Client>(3);
+    Observer *ob1 = new Observer(*subject);
+    Observer *ob2 = new Observer(*subject);
+    Observer *ob3 = new Observer(*subject);
 
-    weatherStation.registerObserver(c1.get());
-    weatherStation.registerObserver(c2.get());
-    weatherStation.registerObserver(c3.get());
+    subject->CreateMessage("This is the first message");
+    ob3->RemoveFromList();
 
-    weatherStation.setState(25, 40, 10);
+    subject->CreateMessage("This is the second message");
 
-    weatherStation.removeObserver(c2.get());
+    Observer *ob4 = new Observer(*subject);
+    subject->CreateMessage("This is the third message");
 
-    weatherStation.setState(35, 50, 5);
-
+    delete subject;
+    delete ob1;
+    delete ob2;
+    delete ob3;
+    delete ob4;
 }
